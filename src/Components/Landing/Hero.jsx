@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 // ── inject keyframes once into <head> ──
 const CSS = `
@@ -50,15 +50,29 @@ const CSS = `
   .bar-animate:nth-child(6) { animation-delay: 1.5s; }
 
   .student-row { animation: fadeSlideUp 0.5s ease both; }
-  .student-row:nth-child(1) { animation-delay: 1.3s; }
+  .student-row:nth-child(1) { animation-delay: 1.3s;  }
   .student-row:nth-child(2) { animation-delay: 1.45s; }
-  .student-row:nth-child(3) { animation-delay: 1.6s; }
+  .student-row:nth-child(3) { animation-delay: 1.6s;  }
 
   .stat-card-mock { animation: fadeSlideUp 0.5s ease both; }
   .stat-card-mock:nth-child(1) { animation-delay: 0.8s; }
   .stat-card-mock:nth-child(2) { animation-delay: 0.9s; }
   .stat-card-mock:nth-child(3) { animation-delay: 1.0s; }
   .stat-card-mock:nth-child(4) { animation-delay: 1.1s; }
+
+  /* vertical dividers between stats */
+  .hero-stat-item {
+    position: relative;
+  }
+  .hero-stat-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -20px;
+    top: 8%;
+    height: 84%;
+    width: 1px;
+    background: rgba(40,167,85,0.2);
+  }
 `;
 
 function useInjectStyles(css) {
@@ -76,27 +90,7 @@ function useInjectStyles(css) {
   }, []);
 }
 
-// ── count-up number hook ──
-function useCountUp(target, duration = 1500, delay = 800) {
-  const [value, setValue] = useState(0);
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      const steps = 40;
-      const increment = target / steps;
-      let current = 0;
-      const interval = setInterval(() => {
-        current += increment;
-        if (current >= target) { setValue(target); clearInterval(interval); }
-        else setValue(Math.floor(current));
-      }, duration / steps);
-      return () => clearInterval(interval);
-    }, delay);
-    return () => clearTimeout(timeout);
-  }, [target, duration, delay]);
-  return value;
-}
-
-// ── stat mock cards data ──
+// ── data ──
 const MOCK_STATS = [
   { label: "Total Students",   val: "847", sub: "↑ 12 this week",     red: false },
   { label: "Attendance Today", val: "94%", sub: "↑ Above average",    red: false },
@@ -119,17 +113,21 @@ const MOCK_STUDENTS = [
   { av:"ZM", name:"Zain Malik",  detail:"Class 10-A · All clear",  bg:"#1d4ed8", badge:"On Track", bBg:"#dbeafe", bClr:"#1d4ed8" },
 ];
 
+// ── exact stats from original landing page ──
+const HERO_STATS = [
+  { num: "10+", label: "Modules in one platform" },
+  { num: "AI",  label: "Powered analytics"       },
+  { num: "PKR", label: "Local pricing available" },
+];
+
 // ─────────────────────────────────────────────
 export default function Hero() {
   useInjectStyles(CSS);
 
-  const students = useCountUp(1200, 1400, 900);
-  const schools  = useCountUp(48,   1200, 900);
-
   return (
     <section
-      className="min-h-screen flex items-center px-6 md:px-16
-        pt-[120px] pb-20 relative overflow-hidden bg-[#f7fdf9]"
+      className="min-h-screen flex items-center px-6 md:px-12 lg:px-20
+        pt-32 pb-24 relative overflow-hidden bg-[#f7fdf9]"
     >
       {/* ── BG GLOWS ── */}
       <div
@@ -155,7 +153,7 @@ export default function Hero() {
       />
 
       {/* ── LEFT CONTENT ── */}
-      <div className="max-w-[680px] relative z-10 w-full">
+      <div className="max-w-[640px] relative z-10 w-full">
 
         {/* Badge */}
         <div
@@ -164,7 +162,7 @@ export default function Hero() {
             border border-[rgba(0,255,136,0.3)]"
           style={{ background: "rgba(0,255,136,0.15)" }}
         >
-          <span className="pulse-dot w-[7px] h-[7px] rounded-full bg-[#28a755] flex-shrink-0" />
+          <span className="pulse-dot w-[7px] h-[7px] rounded-full bg-[#28a755] shrink-0" />
           Now available for Pakistan schools
         </div>
 
@@ -227,17 +225,13 @@ export default function Hero() {
           </a>
         </div>
 
-        {/* Stats */}
+        {/* ── STATS ROW ── */}
         <div
           className="hero-stats flex gap-10 mt-14 pt-10
             border-t border-[rgba(40,167,85,0.15)]"
         >
-          {[
-            [students.toLocaleString() + "+", "Students on platform"],
-            [schools + "+",                   "Schools onboarded"  ],
-            ["PKR",                            "Local pricing"      ],
-          ].map(([num, label]) => (
-            <div key={label}>
+          {HERO_STATS.map(({ num, label }) => (
+            <div key={label} className="hero-stat-item">
               <div
                 className="font-extrabold text-[32px] text-[#1e7a40] leading-none"
                 style={{ fontFamily: "Syne, sans-serif" }}
@@ -248,11 +242,14 @@ export default function Hero() {
             </div>
           ))}
         </div>
+
       </div>
 
       {/* ── RIGHT — DASHBOARD MOCKUP ── */}
-      <div className="hero-mockup absolute right-0 top-1/2 -translate-y-1/2
-        w-[46%] p-10 z-10 hidden lg:block">
+      <div
+        className="hero-mockup absolute right-0 top-1/2 -translate-y-1/2
+          w-[46%] p-10 z-10 hidden lg:block"
+      >
         <div
           className="mock-float bg-white rounded-3xl overflow-hidden"
           style={{
@@ -326,8 +323,7 @@ export default function Hero() {
                 {["M","T","W","T","F","S"].map((d, i) => (
                   <div
                     key={i}
-                    className="flex-1 text-center text-[9px]
-                      font-semibold text-[#6b9e7e]"
+                    className="flex-1 text-center text-[9px] font-semibold text-[#6b9e7e]"
                   >
                     {d}
                   </div>

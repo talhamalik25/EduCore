@@ -2,6 +2,11 @@ import Navbar from "./Navbar";
 import Hero from "./Hero";
 import Problems from "./Problem";
 import Features from "./Features";
+import HowItWorks from "./Howitworks";
+import Pricing from "./Princing";
+import Cta from "./Cta";
+import Footer from "./Footer";
+import Roadmap from "./Roadmap";
 
 export default function LandingPage() {
   return (
@@ -16,6 +21,11 @@ export default function LandingPage() {
       <Hero />
       <Problems />
       <Features />
+      <HowItWorks />
+      <Pricing />
+      <Roadmap />
+      <Cta />
+      <Footer />
     </>
   );
 }

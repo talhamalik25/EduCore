@@ -4,7 +4,7 @@
 @import "tailwindcss";
 
 /* ── Custom Animations ── */
-@keyframes fadeUp {
+/* @keyframes fadeUp {
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
@@ -17,9 +17,9 @@
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.3; }
-}
+} */
 
-@keyframes fadeIn {
+/* @keyframes fadeIn {
   from { opacity: 0; transform: translateY(32px) scale(0.97); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
@@ -27,10 +27,10 @@
 @keyframes pulse-scale {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.6; transform: scale(0.85); }
-}
+} */
 
 /* ── Utility Classes for Animations ── */
-@utility animate-fade-up {
+/* @utility animate-fade-up {
   animation: fadeUp 0.5s ease both;
 }
 
@@ -48,13 +48,13 @@
 
 @utility animate-pulse-scale {
   animation: pulse-scale 2s infinite;
-}
+} */
 
 /* ── Scrollbar ── */
-::-webkit-scrollbar { width: 6px; height: 6px; }
+/* ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #374151; border-radius: 100px; }
+::-webkit-scrollbar-thumb { background: #374151; border-radius: 100px; } */
 
 /* ── Base Resets ── */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+/* * { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; } */
