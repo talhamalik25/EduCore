@@ -7,8 +7,9 @@ import Pricing from "./Princing";
 import Cta from "./Cta";
 import Footer from "./Footer";
 import Roadmap from "./Roadmap";
+import LoginPage from "./Loginpage";
 
-export default function LandingPage() {
+function LandingPage() {
   return (
     <>
       <style>{`
@@ -26,6 +27,9 @@ export default function LandingPage() {
       <Roadmap />
       <Cta />
       <Footer />
+      <LoginPage />
     </>
   );
 }
+
+export default LandingPage;
