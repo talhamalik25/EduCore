@@ -1,80 +1,80 @@
 import { useEffect, useState } from "react";
-import LoginLeftPanel from "../../components/auth/LoginLeftPanel";
-import RoleSelector   from "../../components/auth/RoleSelector";
-import LoginForm      from "../../components/auth/LoginForm";
+import LoginForm from "../../Components/auth/LoginForm";
+import RoleSelector from "../../Components/auth/RoleSelector";
+import LoginLeftPanel from "../../Components/auth/LoginLeftPanel";
 
 // ── inject styles ──
-const CSS = `
-  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap');
+// const CSS = `
+//   @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap');
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: #f7fdf9;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-  }
-  ::selection { background: rgba(78,202,120,0.25); color: #0a3d1f; }
+//   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+//   html { scroll-behavior: smooth; }
+//   body {
+//     font-family: 'DM Sans', sans-serif;
+//     background: #f7fdf9;
+//     overflow-x: hidden;
+//     -webkit-font-smoothing: antialiased;
+//   }
+//   ::selection { background: rgba(78,202,120,0.25); color: #0a3d1f; }
 
-  /* ── page entry ── */
-  @keyframes loginPageIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-  @keyframes rightPanelIn {
-    from { opacity: 0; transform: translateX(24px); }
-    to   { opacity: 1; transform: translateX(0);    }
-  }
-  @keyframes leftPanelIn {
-    from { opacity: 0; transform: translateX(-24px); }
-    to   { opacity: 1; transform: translateX(0);     }
-  }
-  @keyframes formFadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0);    }
-  }
-  @keyframes panelSwitch {
-    0%   { opacity: 0; transform: translateY(8px);  }
-    100% { opacity: 1; transform: translateY(0);    }
-  }
-  @keyframes pulseDot {
-    0%,100% { opacity: 1; transform: scale(1);    }
-    50%     { opacity: 0.5; transform: scale(0.7); }
-  }
+//   /* ── page entry ── */
+//   @keyframes loginPageIn {
+//     from { opacity: 0; }
+//     to   { opacity: 1; }
+//   }
+//   @keyframes rightPanelIn {
+//     from { opacity: 0; transform: translateX(24px); }
+//     to   { opacity: 1; transform: translateX(0);    }
+//   }
+//   @keyframes leftPanelIn {
+//     from { opacity: 0; transform: translateX(-24px); }
+//     to   { opacity: 1; transform: translateX(0);     }
+//   }
+//   @keyframes formFadeUp {
+//     from { opacity: 0; transform: translateY(16px); }
+//     to   { opacity: 1; transform: translateY(0);    }
+//   }
+//   @keyframes panelSwitch {
+//     0%   { opacity: 0; transform: translateY(8px);  }
+//     100% { opacity: 1; transform: translateY(0);    }
+//   }
+//   @keyframes pulseDot {
+//     0%,100% { opacity: 1; transform: scale(1);    }
+//     50%     { opacity: 0.5; transform: scale(0.7); }
+//   }
 
-  .login-page    { animation: loginPageIn 0.4s ease both;   }
-  .left-panel    { animation: leftPanelIn 0.7s 0.1s ease both; }
-  .right-panel   { animation: rightPanelIn 0.7s 0.15s ease both; }
-  .form-header   { animation: formFadeUp 0.6s 0.3s ease both; }
-  .role-selector { animation: formFadeUp 0.6s 0.4s ease both; }
-  .form-body     { animation: formFadeUp 0.6s 0.5s ease both; }
+//   .login-page    { animation: loginPageIn 0.4s ease both;   }
+//   .left-panel    { animation: leftPanelIn 0.7s 0.1s ease both; }
+//   .right-panel   { animation: rightPanelIn 0.7s 0.15s ease both; }
+//   .form-header   { animation: formFadeUp 0.6s 0.3s ease both; }
+//   .role-selector { animation: formFadeUp 0.6s 0.4s ease both; }
+//   .form-body     { animation: formFadeUp 0.6s 0.5s ease both; }
 
-  .panel-greeting,
-  .panel-title,
-  .panel-desc    { animation: panelSwitch 0.4s ease both; }
-  .panel-feature { animation: panelSwitch 0.4s ease both; }
+//   .panel-greeting,
+//   .panel-title,
+//   .panel-desc    { animation: panelSwitch 0.4s ease both; }
+//   .panel-feature { animation: panelSwitch 0.4s ease both; }
 
-  .panel-stats-card {
-    animation: panelSwitch 0.5s 0.2s ease both;
-  }
+//   .panel-stats-card {
+//     animation: panelSwitch 0.5s 0.2s ease both;
+//   }
 
-  .pulse-dot { animation: pulseDot 2s infinite; }
+//   .pulse-dot { animation: pulseDot 2s infinite; }
 
-  /* role transition — re-animate form on role change */
-  .form-role-transition {
-    animation: panelSwitch 0.3s ease both;
-  }
+//   /* role transition — re-animate form on role change */
+//   .form-role-transition {
+//     animation: panelSwitch 0.3s ease both;
+//   }
 
-  /* input autofill override */
-  input:-webkit-autofill,
-  input:-webkit-autofill:hover,
-  input:-webkit-autofill:focus {
-    -webkit-text-fill-color: #0a3d1f;
-    -webkit-box-shadow: 0 0 0 1000px #f0faf4 inset;
-    transition: background-color 5000s ease-in-out 0s;
-  }
-`;
+//   /* input autofill override */
+//   input:-webkit-autofill,
+//   input:-webkit-autofill:hover,
+//   input:-webkit-autofill:focus {
+//     -webkit-text-fill-color: #0a3d1f;
+//     -webkit-box-shadow: 0 0 0 1000px #f0faf4 inset;
+//     transition: background-color 5000s ease-in-out 0s;
+//   }
+// `;
 
 function useInjectStyles(css) {
   useEffect(() => {

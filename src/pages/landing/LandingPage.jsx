@@ -1,13 +1,12 @@
-import Navbar from "./Navbar";
-import Hero from "./Hero";
-import Problems from "./Problem";
-import Features from "./Features";
-import HowItWorks from "./Howitworks";
-import Pricing from "./Princing";
-import Cta from "./Cta";
-import Footer from "./Footer";
-import Roadmap from "./Roadmap";
-import LoginPage from "./Loginpage";
+import Navbar from "../../Components/Landing/Navbar";
+import Hero from "../../Components/Landing/Hero";
+import Problems from "../../Components/Landing/Problem";
+import Features from "../../Components/Landing/Features";
+import HowItWorks from "../../Components/Landing/Howitworks";
+import Pricing from "../../Components/Landing/Princing";
+import Cta from "../../Components/Landing/Cta";
+import Footer from "../../Components/Landing/Footer";
+import Roadmap from "../../Components/Landing/Roadmap";
 
 function LandingPage() {
   return (
@@ -27,7 +26,6 @@ function LandingPage() {
       <Roadmap />
       <Cta />
       <Footer />
-      <LoginPage />
     </>
   );
 }
